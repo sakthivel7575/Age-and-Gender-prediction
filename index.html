@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Age And Gender Recognition System
+    </title>
+    <style>
+    #face-count,gender-table{
+    font-weight: 50px;
+    }
+    h1{
+      text-align:center;
+      align-items:center;
+      color:white;
+    }
+        body {
+            background-color:black;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        #video-container {
+            margin-top:20px;
+            padding-left:30px;
+        }
+        #counts-container {
+            margin-top:-570px;
+            margin-left: 20px;
+            padding-left:700px;
+            color:white;
+
+        }
+        .line{
+        width:10px;
+        padding-right:300px;}
+        h3{
+        padding-left: 200px;}
+        #video-stream{
+        padding-top:30px;
+        height:500px;}
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function updateCounts() {
+            $.get('/get_face_count', function (data) {
+                $('#face-count').text('Face Count: ' + data);
+            });
+
+            $.getJSON('/get_gender_counts', function (data) {
+                var genderTable = $('#gender-table');
+                genderTable.empty();
+                $.each(data, function (gender, count) {
+                    var row = $('<tr></tr>');
+                    row.append('<td>' + gender + '</td>');
+                    row.append('<td>' + count + '</td>');
+                    genderTable.append(row);
+                });
+            });
+        }
+
+        setInterval(updateCounts, 1000);  // Update counts every 1 second
+
+        $(document).ready(function () {
+            updateCounts();
+        });
+    </script>
+</head>
+<body>
+    <h1>Age And Gender Recognition System</h1>
+    <hr>
+    <div id="video-container">
+        <img id="video-stream" src="{{ url_for('video_feed') }}" alt="Video Stream">
+        <div id="counts-container">
+         <h3 id="face-count">Face Count: 0</h3>
+
+        <table id="gender-table">
+            <tr>
+                <th><h2>Gender</h2></th>
+                <th><h2>Count</h2></th>
+            </tr>
+        </table>
+            <hr>
+            <h3>Uses of Gender Classification System</h3>
+            <hr class="line">
+            <p>
+            <h4>Marketing:</h4> Gender classification systems can help companies tailor their marketing campaigns to specific genders. For example, if a company is selling a product that is typically used by women, it can use a gender classification system to identify women and target them with specific advertisements.<br>
+
+<h4>Healthcare:</h4> Gender classification systems can be used in healthcare to ensure that patients receive appropriate treatment. For example, a healthcare provider may need to know a patient's gender to prescribe the right dosage of medication.<br>
+
+<h4>Security:</h4> Gender classification systems can be used in security applications, such as in airports or border control, to quickly and accurately identify individuals.<br>
+
+<h4>Social media:</h4> Gender classification systems can be used by social media platforms to provide personalized content to users based on their gender.<br>
+
+<h4>Diversity and inclusion:</h4> Gender classification systems can be used to monitor and track diversity and inclusion in workplaces, schools, and other organizations.<br></p>
+       </div>
+    </div>
+
+
+</body>
+</html>
